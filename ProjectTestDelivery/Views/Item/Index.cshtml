@@ -1,0 +1,123 @@
+﻿@model ProjectTestDelivery.Models.ItemVM
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div>
+    @using (Html.BeginForm())
+    {
+        <div class="flex-container">
+            <div>
+                    <label asp-for="searchCustomerName" class="control-label">Customer Name</label>
+                    <input asp-for="searchCustomerName" class="form-control" />
+               
+            </div>
+            <div>
+                    <label asp-for="searchCourierName" class="control-label">Courier Name</label>
+                    <input asp-for="searchCourierName" class="form-control" />
+               
+            </div>
+            <div>
+                Delivery Status
+                <select asp-for="status" class="form-control">
+                    <option value="">All Status</option>
+                    <option value="0">On Hold</option>
+                    <option value="1">Delivered</option>
+                    <option value="2">Cancel</option>
+                </select>
+
+            </div>
+            <div>
+                    <label class="control-label">Start Date</label>
+                    <input asp-for="searchByDate" class="form-control" />
+               
+            </div>
+            <div>
+                    <label asp-for="searchAddress" class="control-label">Customer Address</label>
+                    <input asp-for="searchAddress" class="form-control" />
+               
+            </div>
+            <div class="search-button-container">
+                <input class="search-button btn btn-primary" type="submit" value="Search" />
+            </div>
+        </div>
+    }
+</div>
+<table class="table table-index">
+    
+    <thead>
+        <tr>
+            <th>
+                Item Name
+            </th>
+            <th>
+                Item Description
+            </th>
+            <th>
+                Courier Name
+            </th>
+            <th>
+                Customer Name
+            </th>
+            <th>
+                Customer Address
+            </th>
+            <th>
+                Delivery Status
+            </th>
+            <th>
+                Date Created
+            </th>
+            <th>
+                Proof
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.itemList) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemDescription)
+            </td>
+            <td>
+                    @Html.ActionLink(item.Courier.FirstName + " " + item.Courier.LastName, "Details", "Courier",new{id=item.CourierId })
+            </td>
+            <td>
+                    @Html.ActionLink(item.Customer.FirstName + " " + item.Customer.LastName, "Details", "Customer",new{id=item.CustomerId })
+            </td>
+            <td>
+                @(item.Customer.Address)
+            </td>
+            <td>
+                @(item.StatusType == 1 ? "Delivered" : item.StatusType == 2 ? "Cancelled" : "On Hold")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.ActionLink(item.ProofName, "DownloadFile", new{fileName = item.ProofName})
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.ItemId }, new{@class = "float-right btn btn-success btn-options"}) 
+                @Html.ActionLink("Details", "Details", new { id=item.ItemId }, new{@class = "float-right btn btn-warning btn-options"})
+                    @Html.ActionLink("Delete", "Delete", new { id=item.ItemId }, new{@class = "float-right btn btn-danger btn-options"})
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div>
+    <a ></a>
+</div>

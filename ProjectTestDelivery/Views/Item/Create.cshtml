@@ -1,0 +1,70 @@
+﻿@model ProjectTestDelivery.Models.Item
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Item</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <span class="text-danger">@ViewBag.ErrorMsg</span>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ItemName" class="control-label">Item Name</label>
+                <input asp-for="ItemName" class="form-control" />
+                <span asp-validation-for="ItemName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ItemDescription" class="control-label">Item Description</label>
+                <input asp-for="ItemDescription" class="form-control" />
+                <span asp-validation-for="ItemDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProofFile" class="control-label"></label>
+                <input asp-for="ProofFile" class="form-control" accept=".gif,.png,.jpg,.doc,.jpeg,.pdf,.docx" />
+                <span asp-validation-for="ProofFile" class="text-danger"></span>
+            </div>
+            <div class="form-group" @{
+                 if(Model.CustomerId > 0)
+                 {
+                <text>readonly hidden</text>
+}
+}>
+                <label asp-for="StatusType" class="control-label">Status Type</label>
+                <select asp-for="StatusType" class="form-control">
+                    <option value="0">Hold</option>
+                    <option value="1">Delivered</option>
+                    <option value="2">Cancel</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="AssignedCourier" class="control-label">Assigned Courier</label>
+                @Html.DropDownListFor(m=>m.CourierId,Model.AssignedCourier,"Select Courier",  new { @class = "form-control"} )
+            </div>
+            
+            <div class="form-group" @{
+                if(Model.CustomerId > 0) 
+                {<text>readonly hidden</text>}}>
+                <label asp-for="Owner" class="control-label"></label>
+                @Html.DropDownListFor(m=>m.CustomerId,Model.Owner,"Select Customer",  new { @class = "form-control"} )
+                @Html.ValidationMessageFor(m=>m.CustomerId, "", new { @class = "text-danger"})
+            </div>
+            <div class="form-group form-save">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <div class="float-right">
+                    <a asp-action="Index">Back to List</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

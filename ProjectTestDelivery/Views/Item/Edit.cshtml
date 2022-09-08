@@ -1,0 +1,112 @@
+﻿@model ProjectTestDelivery.Models.Item
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    @if (ViewBag.MarkAsDelivered)
+    {
+        <h1>Submit Proof</h1>
+    }
+    else
+    {
+        <h1>Edit</h1>
+    }
+
+
+<h4>Item</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4 ">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div class="form-style-1">
+                <span  class="text-danger">@ViewBag.ErrorMsg</span>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group" readonly hidden>
+                    <label asp-for="ItemId" class="control-label"></label>
+                    <input asp-for="ItemId" class="form-control field-long" />
+                    <span asp-validation-for="ItemId" class="text-danger"></span>
+                </div>
+                <div class="form-group" @{
+                     if(ViewBag.MarkAsDelivered)
+                     {
+                    <text>readonly hidden</text>
+}
+}>
+                <label asp-for="ItemName" class="control-label"></label>
+                <input asp-for="ItemName" class="form-control field-long" />
+                <span asp-validation-for="ItemName" class="text-danger"></span>
+                </div>
+                <div class="form-group" @{
+                     if(ViewBag.MarkAsDelivered)
+                     {
+                    <text>readonly hidden</text>
+}
+}>
+                <label asp-for="ItemDescription" class="control-label"></label>
+                <input asp-for="ItemDescription" class="form-control field-long" />
+                <span asp-validation-for="ItemDescription" class="text-danger"></span>
+                </div>
+                <div class="form-group ">
+                    <label asp-for="ProofFile" class="control-label"></label>
+                    @if (!string.IsNullOrEmpty(Model.ProofName))
+                    {
+                        <p class="text-danger control-label">
+                            A file named @(
+                        Model.ProofName
+                        ) has already been uploaded. Click Choose File to change the file
+                        </p>
+                    }
+                    <input asp-for="ProofFile" class="form-control field-long" accept=".gif,.png,.jpg,.doc,.jpeg,.pdf,.docx" />
+                    <span asp-validation-for="ProofFile" class="text-danger"></span>
+                </div>
+                <div class="form-group" @{
+                 if(ViewBag.MarkAsDelivered)
+                 {
+                <text>readonly hidden</text>
+}
+}>
+                <label asp-for="StatusType" class="control-label field-select">Status Type</label>
+                <select asp-for="StatusType" class="form-control">
+                    <option value="0" >Hold</option>
+                    <option value="1" >Delivered</option>
+                    <option value="2" >Cancel</option>
+                </select>
+            </div>
+                <div class="form-group" @{
+                     if(ViewBag.MarkAsDelivered)
+                     {
+                        <text>readonly hidden</text>
+}
+}>
+                <label asp-for="AssignedCourier" class="control-label">Assigned Courier</label>
+                    @Html.DropDownListFor(m=>m.CourierId,Model.AssignedCourier, "Select Courier",  new { @class = "form-control field-select"} )
+
+            </div>
+                <div class="form-group" @{
+                     if(ViewBag.MarkAsDelivered)
+                     {
+                        <text>readonly hidden</text>
+}
+}>
+                <label asp-for="Owner" class="control-label"></label>
+                    @Html.DropDownListFor(m=>m.CustomerId,Model.Owner,"Select Customer",  new { @class = "form-control field-select"} )
+                    @Html.ValidationMessageFor(m=>m.CustomerId, "", new { @class = "text-danger"})
+            </div>
+                <div class="form-group form-save">
+                    <input type="submit" value="Save" class=" btn btn-primary" />
+                    <div class="float-right">
+                        @if(!ViewBag.MarkAsDelivered){<a asp-action="Index" >Back to List</a>}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
