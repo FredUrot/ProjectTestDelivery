@@ -22,6 +22,6 @@ Courier
 4. Able to query list of deliveries by date. by status, by customer , location/address and by courier.
 
 NOTE:
-no javascript was implemented
+no javascript was manually implemented
 used stored procedures to interact with the database
 added Stored Procedure folder for the stored procedures used while making this project
