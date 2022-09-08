@@ -2,7 +2,7 @@
 
 * Technology to use:
 
-ASP.NET MVC - framework of his choice
+ASP.NET MVC 6
 Database - MSSQL Express.
 BootStrap
 HTML 5
